@@ -1,6 +1,5 @@
 import pexpect
 import sympy
-import sympy.mpmath
 import re
 from sympy.printing import mathematica_code
 
@@ -18,12 +17,12 @@ trans = {
     'ArcCosh'   : sympy.acosh,
     'ArcTanh'   : sympy.atanh,
     'ArcCoth'   : sympy.acoth,
-    'ArcCsch'   : sympy.mpmath.acsch,
-    'ArcSech'   : sympy.mpmath.asech,
+    #'ArcCsch'   : sympy.acsch,
+    #'ArcSech'   : sympy.asech,
     'Cosh'      : sympy.cosh,
     'Coth'      : sympy.coth,
-    'Csch'      : sympy.mpmath.csch,
-    'Sech'      : sympy.mpmath.sech,
+    #'Csch'      : sympy.csch,
+    #'Sech'      : sympy.sech,
     'Sinh'      : sympy.sinh,
     'Tanh'      : sympy.tanh,
     'Sqrt'      : sympy.sqrt,
