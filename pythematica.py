@@ -1,5 +1,6 @@
 import pexpect
 import sympy
+import sympy.mpmath
 import re
 from sympy.printing import mathematica_code
 
@@ -17,21 +18,29 @@ trans = {
     'ArcCosh'   : sympy.acosh,
     'ArcTanh'   : sympy.atanh,
     'ArcCoth'   : sympy.acoth,
-    #'ArcSech'   : sympy.asech,
+    'ArcCsch'   : sympy.mpmath.acsch,
+    'ArcSech'   : sympy.mpmath.asech,
     'Cosh'      : sympy.cosh,
     'Coth'      : sympy.coth,
-    #'Csch'      : sympy.csch,
-    #'Sech'      : sympy.sech,
+    'Csch'      : sympy.mpmath.csch,
+    'Sech'      : sympy.mpmath.sech,
     'Sinh'      : sympy.sinh,
     'Tanh'      : sympy.tanh,
+    'Sqrt'      : sympy.sqrt,
     
-    'Infinity'  : sympy.oo,
     'Plus'      : sympy.Add,
     'Times'     : sympy.Mul,
     'Power'     : sympy.Pow,
     
+    'Integrate' : sympy.Integral,
     'D'         : sympy.diff,
-    'Pi'        : sympy.pi,
+
+    'Pi'                : sympy.pi,
+    'Infinity'          : sympy.oo,
+    'DirectedInfinity'  : lambda x: x*sympy.oo,
+    'Complex'           : lambda x, y: x + sympy.I * y,
+
+    'List'      : lambda *args: args
 }
 
 def sanitize(mexpr):
@@ -56,17 +65,18 @@ def to_mathematica(mexpr):
 def from_mathematica(mexpr):
     '''
     >>> from sympy import *
-    >>> from sympy.abc import *
+    >>> from sympy.abc import x, y
     >>> F = from_mathematica
     >>> assert F('Rational[1, 2]') == Integer(1)/Integer(2)
-
-#     >>> assert F('Times[Rational[1, 2], Power[x, 2]]') == 1/2*x**2
-#     >>> assert F('Power[E, x]') == exp(x)    
-#     >>> assert F('Power[Pi, Rational[1, 2]]') == sqrt(pi)
-#     >>> assert F('Plus[x, y]') == x + y
-#     >>> assert F('Plus[x, Times[-1, y]]') == x - y
-#     >>> assert F('Times[x, Power[y, -1]]') == x/ y
-#     >>> assert F('Cos[x]') == cos(x)
+    >>> assert F('Times[Rational[1, 2], Power[x, 2]]') == 1/2*x**2
+    >>> assert F('Power[E, x]') == exp(x)
+    >>> assert F('Plus[x, y]') == x + y
+    >>> assert F('Plus[x, Times[-1, y]]') == x - y
+    >>> assert F('Times[x, Power[y, -1]]') == x/ y
+    >>> assert F('Cos[x]') == cos(x)
+    >>> assert F('Power[Pi, 2]') == pi**2
+    >>> assert F('Power[Pi, Rational[1, 2]]') == sqrt(pi)
+    >>> assert F('Power[Pi, Rational[-1, 2]]') == 1/sqrt(pi)
     '''
     mexpr = re.sub('\[', '(', mexpr)
     mexpr = re.sub('\]', ')', mexpr)
@@ -116,10 +126,12 @@ def example1():
     print(m( 'Integrate[x^2, {x, -1, 1}]' ))
     print(m( 'FourierTransform[Sin[x], {x, y}, {u, v}]' ))
     print(m( 'InverseFourierTransform[Sin[x], {x, y}, {u, v}]' ))
+    print(m( 'Integrate[Exp[I x], {x, 0, Pi}]' ))
+    print(m( 'I*I' ))
 
 def example2():
 
-    from sympy import Integral, exp, diff, sin, oo
+    from sympy import Integral, exp, diff, sin, cos, oo, sqrt, pi, I
     from sympy.abc import x, y
 
     print('\nSympy:')
@@ -133,6 +145,12 @@ def example2():
     print(m( diff(sin(x), x) ))
     print(m( diff(sin(sin(x)), x) ))
     print(m( Integral(x**2, (x, -1, +1)) ))
+    print(m( Integral(1/(x**2 + 1), (x, 0, +oo)) ))
+    print(m( Integral(sqrt(1 - x**2), (x, 0, 1)) ))
+    print(m( Integral(sin(x)*cos(x), (x, 0, pi)) ))
+    print(m( Integral(sin(x)*cos(2*x), (x, 0, pi)) ))
+    print(m( Integral(exp(I*x), (x, 0, pi)) ))
+    print(m( I*I ))
 
 if __name__ == '__main__':
     example1()
