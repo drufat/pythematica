@@ -65,7 +65,7 @@ First make sure that all the unit tests pass:
 
 ::
 
-    $ $ py.test --doctest-module pythematica.py
+    $ py.test --doctest-module pythematica.py
 
 Then, to install simply run in your favorite shell:
 
