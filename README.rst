@@ -62,9 +62,9 @@ Examples:
 Installation:
 --------------
 
-To install simply run:
+To install simply run in your favorite shell:
 
 ::
 
-    >> python setup.py install
+    $ python setup.py install
 	
