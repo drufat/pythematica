@@ -11,6 +11,7 @@ Examples:
 
 :: 
 
+
 	>>> from pythematica import Pythematica
 	
     >>> from sympy import exp, sin, cos, oo, sqrt, pi, I
