@@ -58,11 +58,16 @@ Examples:
     >>> m.Integrate(exp(I*x), (x, 0, pi))
     2*I
 
-    
 Installation:
 --------------
 
-To install simply run in your favorite shell:
+First make sure that all the unit tests pass:
+
+::
+
+    $ $ py.test --doctest-module pythematica.py
+
+Then, to install simply run in your favorite shell:
 
 ::
 
