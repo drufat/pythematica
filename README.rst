@@ -1,8 +1,8 @@
 Pythematica
 =============
 
-Pythematica is python package that allows for two way communication between Python 
-and Mathematica. On the python side it expresses python formulae as sympy expressoins. 
+Pythematica is python package that allows for seamless interoperability between Python 
+and Mathematica. On the python side it expresses python formulae as sympy expressions. 
 It translates those into strings parsable by Mathematica, evaluates them in the 
 Mathematica interpreter, and then parses the output back into sympy expressions. 
 
@@ -11,8 +11,7 @@ Examples:
 
 :: 
 
-
-	>>> from pythematica import Pythematica
+    >>> from pythematica import Pythematica
 	
     >>> from sympy import exp, sin, cos, oo, sqrt, pi, I
     >>> from sympy.abc import x, y, u, v, n, k
@@ -66,5 +65,6 @@ Installation:
 To install simply run:
 
 ::
-	>> python setup.py install
+
+    >> python setup.py install
 	
